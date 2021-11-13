@@ -413,3 +413,11 @@ segment_image.segmentAsPascalvoc("sample.jpg", output_image_name = "image_new.jp
 9. Object-Detection-Python https://github.com/Yunus0or1/Object-Detection-Python
 
 [Back To Top](#pixellib)
+
+
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+pixellib 설명서 및 cvat기반 auto labelling machine
