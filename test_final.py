@@ -43,21 +43,23 @@ screen_position_1 = []
 for j in range(100):   
     # 540까지 하는거니까 540 으로 고쳐야함
     print(boxes)
-    for i in range(len(boxes)):
-        x1_, y1_, x2_, y2_ = boxes[i][:]
-        screen_position_1.extend([x1+x1_, y1+y1_, x2+x2_, y2+y2_])
-        pyautogui.moveTo(x1+x1_, y1+y1_)
-        pyautogui.press('n')
-        time.sleep(0.5)
-        pyautogui.click()
-        time.sleep(0.5)
-        pyautogui.move(x2_-x1_, y2_-y1_)
-        pyautogui.click()
+    if j == 0:
+        for i in range(len(boxes)):
+            x1_, y1_, x2_, y2_ = boxes[i][:]
+            screen_position_1.extend([x1+x1_, y1+y1_, x2+x2_, y2+y2_])
+            pyautogui.moveTo(x1+x1_, y1+y1_)
+            pyautogui.press('n')
+            time.sleep(0.5)
+            pyautogui.click()
+            time.sleep(0.5)
+            pyautogui.move(x2_-x1_, y2_-y1_)
+            pyautogui.click()
 
     ################################################
     # 다음작업
     ################################################
     pyautogui.press('f')
+    time.sleep(0.3)
     screen_position_2 = []
 
     results = image_process(x1,y1,x2,y2)
@@ -129,7 +131,7 @@ for j in range(100):
                     # x -> 픽셀의 중앙점 y -> 이전박스의 경계선 +1 픽셀 클릭
                     time.sleep(0.3)
                     pyautogui.press('m')
-                    time.sleep(0.1)
+                    time.sleep(0.3)
                     # 1픽셀 바깥쪽의 이미지를 클릭
                 else:
                     pyautogui.moveTo(x_position_1, y1_pop_1 - 1)
@@ -137,4 +139,4 @@ for j in range(100):
                     # x -> 픽셀의 중앙점 y -> 이전박스의 경계선 -1 픽셀 클릭
                     time.sleep(0.3)
                     pyautogui.press('m')
-                    time.sleep(0.1)
+                    time.sleep(0.3)
