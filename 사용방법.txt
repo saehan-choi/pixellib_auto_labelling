@@ -1,0 +1,2 @@
+pycocotools 설치
+-> windows 설치 실패 시 git bash 설치후 git 으로 pycocotools 설치
