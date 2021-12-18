@@ -12,8 +12,8 @@ import time
 # 화면 좌표 보고나서 이 변수만 변경해주면 됨
 x1 = 76
 y1 = 186
-x2 = 2211
-y2 = 1378
+x2 = 1145
+y2 = 1028
 
 length_diffrence_limit = 80
 
@@ -62,7 +62,8 @@ for j in range(540):
 #  박스가 내부에 들어오면 작동하지않음. . .
 #  다수의 사람이 모여있을때 잘 동작하지 않음. . .
 ##################################################################
-#       여기위론 x_position_1, y_position_1 이거없음  
+#       여기위론 x_position_1, y_position_1 이거없음 
+# T+H 하고나서 라벨들을 없앤다음 다시  
         x_position_2, y_position_2 = x_y_center_position(x1_2nd, y1_2nd, x2_2nd, y2_2nd)
         if j == 0:
             pass
