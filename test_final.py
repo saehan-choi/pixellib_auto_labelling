@@ -17,6 +17,11 @@ y2 = 1028
 
 # length_diffrence_limit = 80
 
+# 여기는 merge안되서 옮겨놓을 오른쪽 위 좌표 ( 상가있는쪽에 놔두면 편하겠다 )
+# 
+x3 = 1289
+y3 = 515
+
 def image_process(x1,y1,x2,y2):
     img=ImageGrab.grab(bbox=(x1, y1, x2, y2))
     img.save('my_region.jpg')
@@ -51,7 +56,7 @@ for j in range(540):
         if j == 0:
             pass
         else:
-            center_xy_2nd.extend((x_y_center_position(x1_2nd, y1_2nd, x2_2nd, y2_2nd)))
+            center_xy_2nd.extend([(x_y_center_position(x1_2nd, y1_2nd, x2_2nd, y2_2nd))])
         pyautogui.moveTo(x1+x1_2nd, y1+y1_2nd)
         pyautogui.press('n')
         time.sleep(0.1)
@@ -74,6 +79,9 @@ for j in range(540):
             x1_1st, y1_1st, x2_1st, y2_1st = arr.popleft(), arr.popleft(), arr.popleft(), arr.popleft()
             center_x, center_y = x_y_center_position(x1_1st, y1_1st, x2_1st, y2_1st)
             pyautogui.moveTo(x1+center_x, y1+center_y)
+            pyautogui.dragTo(x1+x3,y1+y3)
+            # merge가 제대로 안되니깐 처음박스를 오른쪽위에다 옮기고 머지한다음 다시 재위치에 갖다놓자
+
             pyautogui.press('m')
             time.sleep(0.1)
             pyautogui.click()
@@ -81,25 +89,37 @@ for j in range(540):
             pyautogui.press('f')
             time.sleep(0.1)
             minimum_diffrence = []
-            for H in range(len(center_xy_2nd)):
-                position_diffrence = sqrt((center_xy_2nd[H][0]-center_x)**2 + (center_xy_2nd[H][1]-center_y)**2)
+            print(f'center_xy_2nd: {center_xy_2nd}')
+            print(f'len(center_xy_2nd): {len(center_xy_2nd)}')
+            for a in range(len(center_xy_2nd)):
+                position_diffrence = sqrt((center_xy_2nd[a][0]-center_x)**2 + (center_xy_2nd[a][1]-center_y)**2)
                 minimum_diffrence.append(position_diffrence)
             minumun_idx = minimum_diffrence.index(min(minimum_diffrence))
 
-            pyautogui.moveTo(x1+center_xy_2nd[minumun_idx][0], y1+center_xy_2nd[minumun_idx][0])
+            pyautogui.moveTo(x1+center_xy_2nd[minumun_idx][0], y1+center_xy_2nd[minumun_idx][1])
             # 여기서는 최소 거리를 가지는 좌표로 이동해야함
             time.sleep(0.1)
             pyautogui.click()
             time.sleep(0.1)
             pyautogui.press('m')
             time.sleep(0.1)
+
+            pyautogui.press('d')
+            pyautogui.moveTo(x1+x3, y1+y3)
+            pyautogui.dragTo(x1+center_x, y1+center_y)
+            pyautogui.press('f')
+
         pyautogui.hotkey('t', 'h')
     pyautogui.press('f')
     time.sleep(0.1)
     
+    
 # -------------------------
 # 이거 이렇게 하려다가 더 좋은방식 생각남 마우스커서로 처음위치를 옮기자
 # 위치를 옮기는 이유는 중앙에 클릭시 그다음박스가 같은곳에 겹쳐질때 적용이 안되서 그럼.
+# 아 근데 맨처음에 내가하려는 방식이 옳은듯 그대로가자
+# 왜냐면 이렇게하니깐 다른사람들이랑 겹쳐짐...
+
 
     # for _ in range(len(boxes)):
     #     arr.popleft
