@@ -21,12 +21,14 @@ y2 = 1028
 # 
 x3 = 1289
 y3 = 515
+position_diffrence_limit = 30
+
 
 def image_process(x1,y1,x2,y2):
     img=ImageGrab.grab(bbox=(x1, y1, x2, y2))
     img.save('my_region.jpg')
     ins = instanceSegmentation()
-    ins.load_model("pointrend_resnet50.pkl", confidence = 0.9)
+    ins.load_model("pointrend_resnet50.pkl", confidence = 0.8)
     # ins.load_model("pointrend_resnet50.pkl", confidence = 0.3)
     # 감지 잘안될경우 confidence 줄이기
     target_classes = ins.select_target_classes(person = True)
@@ -74,40 +76,47 @@ for j in range(540):
         pyautogui.hotkey('t', 'h')
         num_b = num_box.popleft()
         for _ in range(num_b):
-            pyautogui.press('d')
-            
+
             x1_1st, y1_1st, x2_1st, y2_1st = arr.popleft(), arr.popleft(), arr.popleft(), arr.popleft()
             center_x, center_y = x_y_center_position(x1_1st, y1_1st, x2_1st, y2_1st)
-            pyautogui.moveTo(x1+center_x, y1+center_y)
-            pyautogui.dragTo(x1+x3,y1+y3)
-            # merge가 제대로 안되니깐 처음박스를 오른쪽위에다 옮기고 머지한다음 다시 재위치에 갖다놓자
-
-            pyautogui.press('m')
-            # time.sleep(0.1)
-            pyautogui.click()
-            # time.sleep(0.1)
-            pyautogui.press('f')
-            # time.sleep(0.1)
             minimum_diffrence = []
             print(f'center_xy_2nd: {center_xy_2nd}')
             print(f'len(center_xy_2nd): {len(center_xy_2nd)}')
             for a in range(len(center_xy_2nd)):
                 position_diffrence = sqrt((center_xy_2nd[a][0]-center_x)**2 + (center_xy_2nd[a][1]-center_y)**2)
                 minimum_diffrence.append(position_diffrence)
-            minumun_idx = minimum_diffrence.index(min(minimum_diffrence))
+            if min(minimum_diffrence)>position_diffrence_limit:
+                # limit보다 낮으면 라벨링이 다된거라고 생각하고 bbox를 숨김처리
+                pyautogui.moveTo(x1+center_x, y1+center_y)
+                pyautogui.press('o')
+                pass
+            else:
+                pyautogui.press('d')
+                                
+                minumun_idx = minimum_diffrence.index(min(minimum_diffrence))
+                pyautogui.moveTo(x1+center_x, y1+center_y)
+                pyautogui.dragTo(x1+x3,y1+y3)
+                # merge가 제대로 안되니깐 처음박스를 오른쪽위에다 옮기고 머지한다음 다시 재위치에 갖다놓자
 
-            pyautogui.moveTo(x1+center_xy_2nd[minumun_idx][0], y1+center_xy_2nd[minumun_idx][1])
-            # 여기서는 최소 거리를 가지는 좌표로 이동해야함
-            # time.sleep(0.1)
-            pyautogui.click()
-            # time.sleep(0.1)
-            pyautogui.press('m')
-            # time.sleep(0.1)
+                pyautogui.press('m')
+                # time.sleep(0.1)
+                pyautogui.click()
+                # time.sleep(0.1)
+                pyautogui.press('f')
+                # time.sleep(0.1)
 
-            pyautogui.press('d')
-            pyautogui.moveTo(x1+x3, y1+y3)
-            pyautogui.dragTo(x1+center_x, y1+center_y)
-            pyautogui.press('f')
+                pyautogui.moveTo(x1+center_xy_2nd[minumun_idx][0], y1+center_xy_2nd[minumun_idx][1])
+                # 여기서는 최소 거리를 가지는 좌표로 이동해야함
+                # time.sleep(0.1)
+                pyautogui.click()
+                # time.sleep(0.1)
+                pyautogui.press('m')
+                # time.sleep(0.1)
+
+                pyautogui.press('d')
+                pyautogui.moveTo(x1+x3, y1+y3)
+                pyautogui.dragTo(x1+center_x, y1+center_y)
+                pyautogui.press('f')
 
         pyautogui.hotkey('t', 'h')
     pyautogui.press('f')
