@@ -26,7 +26,7 @@ def image_process(x1,y1,x2,y2):
     img=ImageGrab.grab(bbox=(x1, y1, x2, y2))
     img.save('my_region.jpg')
     ins = instanceSegmentation()
-    ins.load_model("pointrend_resnet50.pkl")
+    ins.load_model("pointrend_resnet50.pkl", confidence = 0.9)
     # ins.load_model("pointrend_resnet50.pkl", confidence = 0.3)
     # 감지 잘안될경우 confidence 줄이기
     target_classes = ins.select_target_classes(person = True)
@@ -59,15 +59,15 @@ for j in range(540):
             center_xy_2nd.extend([(x_y_center_position(x1_2nd, y1_2nd, x2_2nd, y2_2nd))])
         pyautogui.moveTo(x1+x1_2nd, y1+y1_2nd)
         pyautogui.press('n')
-        time.sleep(0.1)
+        # time.sleep(0.1)
         pyautogui.click()
-        time.sleep(0.1)
+        # time.sleep(0.1)
         pyautogui.move(x2_2nd-x1_2nd, y2_2nd-y1_2nd)
-        time.sleep(0.1)
+        # time.sleep(0.1)
         pyautogui.click()
         # time.sleep(0.5)
     pyautogui.hotkey('t', 'h')
-    time.sleep(0.1)
+    # time.sleep(0.1)
     if j == 0:
         pass
     else:
@@ -83,11 +83,11 @@ for j in range(540):
             # merge가 제대로 안되니깐 처음박스를 오른쪽위에다 옮기고 머지한다음 다시 재위치에 갖다놓자
 
             pyautogui.press('m')
-            time.sleep(0.1)
+            # time.sleep(0.1)
             pyautogui.click()
-            time.sleep(0.1)
+            # time.sleep(0.1)
             pyautogui.press('f')
-            time.sleep(0.1)
+            # time.sleep(0.1)
             minimum_diffrence = []
             print(f'center_xy_2nd: {center_xy_2nd}')
             print(f'len(center_xy_2nd): {len(center_xy_2nd)}')
@@ -98,11 +98,11 @@ for j in range(540):
 
             pyautogui.moveTo(x1+center_xy_2nd[minumun_idx][0], y1+center_xy_2nd[minumun_idx][1])
             # 여기서는 최소 거리를 가지는 좌표로 이동해야함
-            time.sleep(0.1)
+            # time.sleep(0.1)
             pyautogui.click()
-            time.sleep(0.1)
+            # time.sleep(0.1)
             pyautogui.press('m')
-            time.sleep(0.1)
+            # time.sleep(0.1)
 
             pyautogui.press('d')
             pyautogui.moveTo(x1+x3, y1+y3)
@@ -111,7 +111,7 @@ for j in range(540):
 
         pyautogui.hotkey('t', 'h')
     pyautogui.press('f')
-    time.sleep(0.1)
+    # time.sleep(0.1)
     
     
 # -------------------------
